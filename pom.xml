@@ -1,0 +1,524 @@
+<!--
+
+    Copyright 2019-2021 the original author or authors.
+
+    Licensed under the Apache License, Version 2.0 (the "License");
+    you may not use this file except in compliance with the License.
+    You may obtain a copy of the License at
+
+         http://www.apache.org/licenses/LICENSE-2.0
+
+    Unless required by applicable law or agreed to in writing, software
+    distributed under the License is distributed on an "AS IS" BASIS,
+    WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+    See the License for the specific language governing permissions and
+    limitations under the License.
+
+-->
+<project xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://maven.apache.org/POM/4.0.0"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/maven-v4_0_0.xsd">
+
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>org.mvndaemon.mvnd</groupId>
+    <artifactId>mvnd</artifactId>
+    <version>0.7.2-SNAPSHOT</version>
+
+    <packaging>pom</packaging>
+    <name>Maven Daemon - Parent</name>
+    <inceptionYear>2019</inceptionYear>
+
+    <properties>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <maven.compiler.target>1.8</maven.compiler.target>
+        <maven.compiler.source>1.8</maven.compiler.source>
+        <trimStackTrace>false</trimStackTrace>
+
+        <!-- dependency versions a..z -->
+        <apiguardian-api.version>1.0.0</apiguardian-api.version>
+        <assertj.version>3.16.1</assertj.version>
+        <commons-compress.version>1.21</commons-compress.version>
+        <graalvm.version>21.3.0</graalvm.version>
+        <graalvm.plugin.version>21.2.0</graalvm.plugin.version>
+        <groovy.version>3.0.9</groovy.version>
+        <jakarta.inject.version>1.0</jakarta.inject.version>
+        <jansi.version>2.4.0</jansi.version>
+        <jline.version>3.21.0</jline.version>
+        <junit.jupiter.version>5.7.2</junit.jupiter.version>
+        <logback.version>1.2.3</logback.version>
+        <maven.version>3.8.4</maven.version>
+        <maven.resolver.version>1.7.2</maven.resolver.version>
+        <slf4j.version>1.7.32</slf4j.version>
+
+        <!-- plugin versions a..z -->
+        <buildnumber-maven-plugin.version>1.4</buildnumber-maven-plugin.version>
+        <compiler.version>3.8.1</compiler.version>
+        <formatter-maven-plugin.version>2.15.0</formatter-maven-plugin.version>
+        <groovy-maven-plugin.version>2.1.1</groovy-maven-plugin.version>
+        <impsort-maven-plugin.version>1.6.0</impsort-maven-plugin.version>
+        <license-maven-plugin.version>3.0</license-maven-plugin.version>
+        <maven-jar-plugin.version>3.2.0</maven-jar-plugin.version>
+        <maven-install-plugin.version>2.4</maven-install-plugin.version>
+        <maven-shade-plugin.version>3.2.4</maven-shade-plugin.version>
+        <mrm.version>1.2.0</mrm.version>
+        <surefire.version>3.0.0-M5</surefire.version><!-- keep in sync with junit-platform-launcher.version -->
+        <junit-platform-launcher.version>1.3.2</junit-platform-launcher.version><!-- keep in sync with surefire.version -->
+        <takari-lifecycle.version>1.13.9</takari-lifecycle.version>
+        <takari-provisio.version>1.0.19</takari-provisio.version>
+
+        <javassist.version>3.27.0-GA</javassist.version>
+    </properties>
+
+    <modules>
+        <module>build-plugin</module>
+        <module>native</module>
+        <module>agent</module>
+        <module>helper</module>
+        <module>common</module>
+        <module>client</module>
+        <module>daemon</module>
+        <module>sync</module>
+        <module>dist</module>
+        <module>integration-tests</module>
+    </modules>
+
+    <scm>
+        <connection>scm:git:git@github.com:mvndaemon/mvnd.git</connection>
+        <developerConnection>scm:git:git@github.com:mvndaemon/mvnd.git</developerConnection>
+        <url>https://github.com/mvndaemon/mvnd</url>
+        <tag>head</tag>
+    </scm>
+
+    <dependencyManagement>
+        <dependencies>
+
+            <dependency>
+                <groupId>ch.qos.logback</groupId>
+                <artifactId>logback-classic</artifactId>
+                <version>${logback.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-api</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>slf4j-simple</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.commons</groupId>
+                <artifactId>commons-compress</artifactId>
+                <version>${commons-compress.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.graalvm.sdk</groupId>
+                <artifactId>graal-sdk</artifactId>
+                <version>${graalvm.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.codehaus.groovy</groupId>
+                <artifactId>groovy</artifactId>
+                <version>${groovy.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.graalvm.nativeimage</groupId>
+                <artifactId>svm</artifactId>
+                <version>${graalvm.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.junit</groupId>
+                <artifactId>junit-bom</artifactId>
+                <version>${junit.jupiter.version}</version>
+                <scope>import</scope>
+                <type>pom</type>
+            </dependency>
+
+            <dependency>
+                <groupId>jakarta.inject</groupId>
+                <artifactId>jakarta.inject-api</artifactId>
+                <version>${jakarta.inject.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-model</artifactId>
+                <version>${maven.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>maven-embedder</artifactId>
+                <version>${maven.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven</groupId>
+                <artifactId>apache-maven</artifactId>
+                <type>tar.gz</type>
+                <classifier>bin</classifier>
+                <version>${maven.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.apache.maven.resolver</groupId>
+                <artifactId>maven-resolver-api</artifactId>
+                <version>${maven.resolver.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven.resolver</groupId>
+                <artifactId>maven-resolver-impl</artifactId>
+                <version>${maven.resolver.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven.resolver</groupId>
+                <artifactId>maven-resolver-spi</artifactId>
+                <version>${maven.resolver.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven.resolver</groupId>
+                <artifactId>maven-resolver-util</artifactId>
+                <version>${maven.resolver.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven.resolver</groupId>
+                <artifactId>maven-resolver-connector-basic</artifactId>
+                <version>${maven.resolver.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.apache.maven.resolver</groupId>
+                <artifactId>maven-resolver-transport-wagon</artifactId>
+                <version>${maven.resolver.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.assertj</groupId>
+                <artifactId>assertj-core</artifactId>
+                <version>${assertj.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.mvndaemon.mvnd</groupId>
+                <artifactId>mvnd-native</artifactId>
+                <version>0.7.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mvndaemon.mvnd</groupId>
+                <artifactId>mvnd-agent</artifactId>
+                <version>0.7.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mvndaemon.mvnd</groupId>
+                <artifactId>mvnd-client</artifactId>
+                <version>0.7.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mvndaemon.mvnd</groupId>
+                <artifactId>mvnd-common</artifactId>
+                <version>0.7.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mvndaemon.mvnd</groupId>
+                <artifactId>mvnd-dist</artifactId>
+                <type>pom</type>
+                <version>0.7.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mvndaemon.mvnd</groupId>
+                <artifactId>mvnd-daemon</artifactId>
+                <version>0.7.2-SNAPSHOT</version>
+            </dependency>
+            <dependency>
+                <groupId>org.mvndaemon.mvnd</groupId>
+                <artifactId>mvnd-helper-agent</artifactId>
+                <version>0.7.2-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.jline</groupId>
+                <artifactId>jline-terminal</artifactId>
+                <version>${jline.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.jline</groupId>
+                <artifactId>jline-terminal-jansi</artifactId>
+                <version>${jline.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.fusesource.jansi</groupId>
+                <artifactId>jansi</artifactId>
+                <version>${jansi.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>log4j-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jcl-over-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>org.slf4j</groupId>
+                <artifactId>jul-to-slf4j</artifactId>
+                <version>${slf4j.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>org.javassist</groupId>
+                <artifactId>javassist</artifactId>
+                <version>${javassist.version}</version>
+            </dependency>
+
+        </dependencies>
+    </dependencyManagement>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <plugin>
+                    <groupId>com.mycila</groupId>
+                    <artifactId>license-maven-plugin</artifactId>
+                    <version>${license-maven-plugin.version}</version>
+                    <configuration>
+                        <inlineHeader>Copyright ${project.inceptionYear} the original author or authors.
+
+Licensed under the Apache License, Version 2.0 (the "License");
+you may not use this file except in compliance with the License.
+You may obtain a copy of the License at
+
+     http://www.apache.org/licenses/LICENSE-2.0
+
+Unless required by applicable law or agreed to in writing, software
+distributed under the License is distributed on an "AS IS" BASIS,
+WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+See the License for the specific language governing permissions and
+limitations under the License.</inlineHeader>
+                        <excludes>
+                            <exclude>**/*.adoc</exclude>
+                            <exclude>**/README.*</exclude>
+                            <exclude>**/.cache/**</exclude>
+                            <exclude>**/.gitkeep</exclude>
+                            <exclude>**/mvnd.properties.template</exclude>
+                            <exclude>**/m2.conf</exclude>
+                            <exclude>**/mvnd</exclude>
+                            <exclude>**/.mvn/maven.config</exclude>
+                            <exclude>.gitattributes/</exclude>
+                            <exclude>.mvn/maven.config</exclude>
+                            <exclude>.mvn/wrapper/</exclude>
+                            <exclude>LICENSE.txt</exclude>
+                            <exclude>NOTICE.txt</exclude>
+                            <exclude>mvnw</exclude>
+                            <exclude>mvnw.cmd</exclude>
+                            <exclude>pom.xml.versionsBackup</exclude>
+                            <exclude>**/*.so</exclude>
+                            <exclude>**/*.dll</exclude>
+                            <exclude>**/*.jnilib</exclude>
+                            <exclude>**/Makefile*</exclude>
+                            <exclude>**/docker/*</exclude>
+                        </excludes>
+                        <mapping>
+                            <bash>SCRIPT_STYLE</bash>
+                            <groovy>SLASHSTAR_STYLE</groovy>
+                            <java>SLASHSTAR_STYLE</java>
+                            <mvn>SCRIPT_STYLE</mvn>
+                            <mvnd.sh>SCRIPT_STYLE</mvnd.sh>
+                            <mvns>SCRIPT_STYLE</mvns>
+                            <vbs>APOSTROPHE_STYLE</vbs>
+                        </mapping>
+                        <skipExistingHeaders>true</skipExistingHeaders><!-- we want to keep third party license headers -->
+                        <failIfUnknown>true</failIfUnknown>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>ca.vanzyl.provisio.maven.plugins</groupId>
+                    <artifactId>provisio-maven-plugin</artifactId>
+                    <version>${takari-provisio.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>com.thoughtworks.xstream</groupId>
+                            <artifactId>xstream</artifactId>
+                            <version>1.4.18</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>io.takari.maven.plugins</groupId>
+                    <artifactId>takari-lifecycle-plugin</artifactId>
+                    <version>${takari-lifecycle.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>net.revelc.code.formatter</groupId>
+                    <artifactId>formatter-maven-plugin</artifactId>
+                    <version>${formatter-maven-plugin.version}</version>
+                    <configuration>
+                        <configFile>${maven.multiModuleProjectDirectory}/build/eclipse-formatter-config.xml</configFile>
+                        <skip>${format.skip}</skip>
+                        <lineEnding>KEEP</lineEnding>
+                        <cachedir>${project.build.directory}/cache</cachedir>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>net.revelc.code</groupId>
+                    <artifactId>impsort-maven-plugin</artifactId>
+                    <version>${impsort-maven-plugin.version}</version>
+                    <configuration>
+                        <removeUnused>true</removeUnused>
+                        <staticAfter>true</staticAfter>
+                        <lineEnding>KEEP</lineEnding>
+                        <skip>${format.skip}</skip>
+                        <cachedir>${project.build.directory}/cache</cachedir>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>${compiler.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-failsafe-plugin</artifactId>
+                    <version>${surefire.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>${surefire.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>${maven-jar-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-install-plugin</artifactId>
+                    <version>${maven-install-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-shade-plugin</artifactId>
+                    <version>${maven-shade-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.gmaven</groupId>
+                    <artifactId>groovy-maven-plugin</artifactId>
+                    <version>${groovy-maven-plugin.version}</version>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.codehaus.groovy</groupId>
+                            <artifactId>groovy-all</artifactId>
+                            <version>${groovy.version}</version>
+                            <type>pom</type>
+                            <exclusions>
+                                <exclusion>
+                                    <!-- groovy-testng depends on testng 7.2.0 wich is not on maven central -->
+                                    <groupId>org.codehaus.groovy</groupId>
+                                    <artifactId>groovy-testng</artifactId>
+                                </exclusion>
+                            </exclusions>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>mrm-maven-plugin</artifactId>
+                    <version>${mrm.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.codehaus.mojo</groupId>
+                    <artifactId>buildnumber-maven-plugin</artifactId>
+                    <version>${buildnumber-maven-plugin.version}</version>
+                </plugin>
+                <plugin>
+                    <groupId>org.graalvm.nativeimage</groupId>
+                    <artifactId>native-image-maven-plugin</artifactId>
+                    <version>${graalvm.plugin.version}</version>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+
+        <plugins>
+            <plugin>
+                <groupId>com.mycila</groupId>
+                <artifactId>license-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <phase>process-sources</phase>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>net.revelc.code.formatter</groupId>
+                <artifactId>formatter-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>format</id>
+                        <goals>
+                            <goal>format</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>net.revelc.code</groupId>
+                <artifactId>impsort-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>sort-imports</id>
+                        <goals>
+                            <goal>sort</goal>
+                        </goals>
+                        <phase>process-sources</phase>
+                    </execution>
+                </executions>
+            </plugin>
+            <plugin>
+                <groupId>org.codehaus.gmaven</groupId>
+                <artifactId>groovy-maven-plugin</artifactId>
+                <executions>
+                    <execution>
+                        <id>set-platform-properties</id>
+                        <phase>generate-sources</phase>
+                        <goals>
+                            <goal>execute</goal>
+                        </goals>
+                        <configuration>
+                            <source>
+                                // Naming conventions coined by GraalVM
+                                // https://github.com/graalvm/graalvm-ce-builds/releases/
+                                String osName = System.getProperty('os.name').toLowerCase(Locale.ROOT)
+                                if (osName.startsWith('windows')) {
+                                    project.properties['os.detected.name'] = 'windows'
+                                } else if (osName.startsWith('linux')) {
+                                    project.properties['os.detected.name'] = 'linux'
+                                } else if (osName.startsWith('osx') || osName.startsWith('mac os x')) {
+                                    project.properties['os.detected.name'] = 'darwin'
+                                } else {
+                                    project.properties['os.detected.name'] = osName
+                                }
+                                String osArch = System.getProperty('os.arch').toLowerCase(Locale.ROOT)
+                                if (osArch.equals('amd64') || osArch.equals('x86_64')) {
+                                    project.properties['os.detected.arch'] = 'amd64'
+                                } else {
+                                    project.properties['os.detected.arch'] = osArch
+                                }
+                            </source>
+                        </configuration>
+                    </execution>
+                </executions>
+            </plugin>
+        </plugins>
+    </build>
+
+</project>
